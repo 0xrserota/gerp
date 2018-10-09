@@ -28,7 +28,6 @@ MainHashTable::MainHashTable()
 {
 	for (size_t i = 0; i < 83; ++i)
 	{
-
 		tableVec.push_back(new ChainLinkedList);
 	}
 }
@@ -196,7 +195,7 @@ void MainHashTable::printCaseWord(string query)
 		size_t value = hashFunction(query, tableVec.size());
 
 		vector<size_t> *caseIndices = tableVec[value]->getCaseIndices(key, query);
-		vector<int> *lineNums  = tableVec[value]->getCaseLineNums(key, caseIndices);
+		vector<int>    *lineNums  = tableVec[value]->getCaseLineNums(key, caseIndices);
 		vector<size_t> *lineIndices = tableVec[value]->getCaseLineIndices(key, caseIndices);
 		vector<size_t> *pathIndices = tableVec[value]->getCasePathIndices(key, caseIndices);
 
@@ -234,6 +233,7 @@ void MainHashTable::expand()
 	//Expanding capacity
 	size_t newSize = (tableVec.size() * 2) + 1;
 	vector<ChainLinkedList*> tmp;
+
 	for (size_t i = 0; i < newSize; ++i)
 	{
 		tmp.push_back(new ChainLinkedList);

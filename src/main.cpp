@@ -80,30 +80,23 @@ void run(MainHashTable* ht)
 	string cmd;
 	string query;
 
-	while (!cin.eof())
+	while (!cin.eof()) 
 	{
 		ht->resetBeenPrinted();
 		cout << "Query? ";
-
 		cin >> cmd;
-		if (cin.eof())
+		if (cin.eof()) {
 			break;
-
-		if (cmd == "@q" or cmd == "@quit")
-			break;
-
-		else if (cmd == "@i" or cmd == "@insensitive")
-		{
-			cin >> query;
-			if (cin.eof())
-				break;
-
-			query = stripNonAlphaNum(query);			
-			ht->printWord(query);
 		}
 
-		else
-		{
+		if (cmd == "@q" or cmd == "@quit") {
+			break;
+		} else if (cmd == "@i" or cmd == "@insensitive") { 
+			cin >> query;
+			if (cin.eof()) break;
+			query = stripNonAlphaNum(query);			
+			ht->printWord(query);
+		} else {
 			query = cmd;
 			query = stripNonAlphaNum(query);
 			ht->printCaseWord(query);
@@ -117,11 +110,12 @@ void run(MainHashTable* ht)
  *
  * Takes no parameters 
  *
- * Prints a quit message to std output
+ * Prints a message to stdout
  */
-void quit()
+void quit() 
 {
 	cout << "\nGoodbye! Thank you and have a nice day." << endl;
+	exit(0);
 }
 
 /* Returns nothing.

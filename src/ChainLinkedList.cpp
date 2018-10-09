@@ -25,7 +25,7 @@ ChainLinkedList::ChainLinkedList()
 	pathIndices = new vector<size_t>;
 	caseIndices = new vector<size_t>;
 	lineIndices = new vector<size_t>;
-	lineNums = new vector<int>;
+	lineNums    = new vector<int>;
 }
 
 /* Destructor
@@ -71,7 +71,7 @@ void ChainLinkedList::addAtFront(string key, int value, string word,
 	cn->next = front;
 	front = cn;
 
-	chainLength++;
+	++chainLength;
 
 	// Allocate new WordVector and add this word at back of WordList
 	cn->wv = new WordVector;
