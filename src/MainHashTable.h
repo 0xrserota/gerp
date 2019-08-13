@@ -12,14 +12,16 @@
  *           On       : 11/29/2017
  */
 
+#ifndef MAINHASHTABLE_H
+#define MAINHASHTABLE_H
+
 #include "ChainLinkedList.h"
 #include <vector>
 #include <string>
 
 using namespace std;
 
-#ifndef _MAINHASHTABLE_
-#define _MAINHASHTABLE_
+
 
 class MainHashTable {
 

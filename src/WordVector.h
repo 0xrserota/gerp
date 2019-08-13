@@ -15,11 +15,11 @@
  *
  */
 
+#ifndef WORDVECTOR_H
+#define WORDVECTOR_H
+
 #include <iostream>
 #include <vector>
-
-#ifndef _WORDVECTOR_
-#define _WORDVECTOR_
 
 using namespace std;
 

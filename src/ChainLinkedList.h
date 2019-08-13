@@ -19,8 +19,8 @@
 #include "WordVector.h"
 #include <iostream>
 
-#ifndef _CHAINLINKEDLIST_
-#define _CHAINLINKEDLIST_
+#ifndef CHAINLINKEDLIST_H
+#define CHAINLINKEDLIST_H
 
 using namespace std;
 
@@ -53,30 +53,21 @@ class ChainLinkedList {
 
 	private:
 
-		struct ChainNode {
-
+		typedef struct ChainNode {
 			std::string key;
 			int value;
 			WordVector *wv;
 			ChainNode *next;
-		};
+		} ChainNode;
 
 		size_t chainLength;
-
 		ChainNode *front;
 		ChainNode *cn;
 
-		// Stores the indices of the pathVec where each line is stored
-		vector<size_t> *pathIndices; 
-
-		// Stores the indices of the lineVec where each line is stored
-		vector<size_t> *lineIndices;
-
-		// Stores the indices of the same case
-		vector<size_t> *caseIndices;
-
-		// Stores the line numbers 
-		vector<int> *lineNums;
+		vector<size_t> *pathIndices; 	// Stores the indices of the pathVec where each line is stored
+		vector<size_t> *lineIndices;	// Stores the indices of the lineVec where each line is stored
+		vector<size_t> *caseIndices;	// Stores the indices of the same case
+		vector<int> *lineNums;			// Stores the line numbers 
 
 		ChainNode* getChainNode(string key);
 		void addNodeAtFront(ChainNode* cn);
