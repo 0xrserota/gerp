@@ -2,7 +2,7 @@
  *
  *  COMP 15 Project 2: Gerp - It's Like grep But Something Is Off
  *
- *  main.cpp
+ *  FSTreeTraversal.cc
  *  Main function for gerp
  *	
  *  Modified By (UTLN): rserot01
@@ -15,44 +15,6 @@
 #include <vector>
 
 using namespace std;
-
-void traverseTree(DirNode*, string, vector<string>&);
-void printFilePaths(vector<string>);
-
-/* Main takes a single command-line argument, namely the name of 
-	the directory to be made the root of the FSTree. If main does not receive 
-	2 arguments, we return. The root directory name is stored in a string,
-	and the FSTree constructor is called with this string as the argument.
-	To account for the appending of the "/" to the file and directory paths
-	in traverseTree below, if the last character in the top string is "/",
-	we delete the "/" (to prevent "/foo//top/bar"). The tree traversal function
-	is called with the root pointer of the new FSTree, the name of the
-	top directory, and a vector passed by reference to store the filepaths. 
-	Once traverseTree has finished executing, a function that prints the 
-	contents of a vector is called. */
-
-/* int main (int argc, char *argv[]) */
-int main(int argc, char *argv[])
-{
-	if (argc != 2) { return -1; }
-
-	string top = argv[1];
-	vector<string> filePaths;
-
-	FSTree fst(top);
-
-	char ch = top.back();
-	if (ch == '/')
-	{
-		top.erase(top.length() - 1);
-	}
-
-	traverseTree(fst.getRoot(), top, filePaths);
-	printFilePaths(filePaths);
-
-	return 0;
-}
-
 
 /* Traverses FSTree instantiated in main, iterating through all subdirectories
 	in the DirNode *dn, and recursing through each subdirectory. If a dirNode 
@@ -97,4 +59,39 @@ void printFilePaths(vector<string> filePaths)
 	{
 		cout << filePaths[i] << endl;
 	}
+}
+
+
+/* Main takes a single command-line argument, namely the name of 
+	the directory to be made the root of the FSTree. If main does not receive 
+	2 arguments, we return. The root directory name is stored in a string,
+	and the FSTree constructor is called with this string as the argument.
+	To account for the appending of the "/" to the file and directory paths
+	in traverseTree below, if the last character in the top string is "/",
+	we delete the "/" (to prevent "/foo//top/bar"). The tree traversal function
+	is called with the root pointer of the new FSTree, the name of the
+	top directory, and a vector passed by reference to store the filepaths. 
+	Once traverseTree has finished executing, a function that prints the 
+	contents of a vector is called. */
+
+/* int main (int argc, char *argv[]) */
+int main(int argc, char *argv[])
+{
+	if (argc != 2) { return -1; }
+
+	string top = argv[1];
+	vector<string> filePaths;
+
+	FSTree fst(top);
+
+	char ch = top.back();
+	if (ch == '/')
+	{
+		top.erase(top.length() - 1);
+	}
+
+	traverseTree(fst.getRoot(), top, filePaths);
+	printFilePaths(filePaths);
+
+	return 0;
 }

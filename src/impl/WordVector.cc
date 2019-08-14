@@ -29,6 +29,7 @@ WordVector::~WordVector()
 	for (size_t i = 0; i < wordList.size(); ++i)
 	{
 		delete wordList[i];
+		wordList[i] = nullptr;
 	}
 }
 

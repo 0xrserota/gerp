@@ -10,59 +10,15 @@
  *
  */
 
-#include "MainHashTable.h"
-#include "FSTree.h"
-#include "stringProcessing.h"
-
 #include <iostream>
 #include <sstream>
 #include <fstream>
 
+#include "MainHashTable.h"
+#include "FSTree.h"
+#include "stringProcessing.h"
+
 using namespace std;
-
-void run(MainHashTable*);
-void quit();
-void indexFSTree(DirNode*, string, stringstream&, MainHashTable*);
-void indexFiles(stringstream&, MainHashTable*);
-void indexLine(stringstream&, int, size_t, MainHashTable*);
-void traverseTree(DirNode*, string, stringstream&);
-
-
-/* 
- * Returns an int.
- *
- * Parameters:
- *     argc: size of argv
- *	   argv: array of command-line arguments 
- *
- * int main(int, char* []) */
-int main(int argc, char *argv[])
-{
-	if (argc == 2)
-	{
-		// Creates an instance of MainHashTable to be used throughout
-		MainHashTable *ht = new MainHashTable;
-
-		stringstream pathStream;
-		string top = argv[1];
-		FSTree fst(top);
-		indexFSTree(fst.getRoot(), top, pathStream, ht);
-		run(ht);
-
-		// Deletes MainHashTable instance
-		delete ht;
-
-		return 0;
-	}
-
-	else
-	{
-		cerr << "Usage: gerp directory\n            " 
-			 			<< "where: directory is a valid directory" << endl;
-
-		return EXIT_FAILURE;
-	}	
-}
 
 /* 
  * Returns nothing.
@@ -227,4 +183,48 @@ void traverseTree(DirNode *dn, string dirPath,
 			pathStream << " " << fpath;
 		} 
 	}
+}
+
+/*
+ *
+ * 
+ */
+int usage()
+{
+	cerr << "Usage: gerp directory\n" 
+		 << "where: directory is a valid directory" << endl;
+	return EXIT_FAILURE;
+}
+
+/* 
+ * Returns an int.
+ *
+ * Parameters:
+ *     argc: size of argv
+ *	   argv: array of command-line arguments 
+ *
+ * int main(int, char* []) */
+int main(int argc, char *argv[])
+{
+	if (argc == 2)
+	{
+		// Creates an instance of MainHashTable to be used throughout
+		MainHashTable *mht = new MainHashTable;
+
+		stringstream pathStream;
+		string top = argv[1];
+		FSTree fst(top);
+
+		if (fst.isEmpty())
+			return usage();
+
+		indexFSTree(fst.getRoot(), top, pathStream, mht);
+		run(mht);
+
+		// Deletes MainHashTable instance
+		delete mht;
+
+		return EXIT_SUCCESS;
+	} 
+
 }
