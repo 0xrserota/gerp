@@ -15,12 +15,13 @@
  *           On       : 11/29/2017
  */
 
-
-#include "WordVector.h"
-#include <iostream>
-
 #ifndef CHAINLINKEDLIST_H
 #define CHAINLINKEDLIST_H
+
+#include <iostream>
+
+#include <WordVector.h>
+
 
 using namespace std;
 

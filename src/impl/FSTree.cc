@@ -1,5 +1,5 @@
-#include "DirNode.h"
-#include "FSTree.h"
+#include <DirNode.h>
+#include <FSTree.h>
 
 FSTree::FSTree()
 {
@@ -8,41 +8,41 @@ FSTree::FSTree()
 
 FSTree::FSTree(std::string rootName)
 {
-	;
+	rootName += "1";
+	return;
 }
 
 FSTree::FSTree(const FSTree &other)
 {
-;
+	root = preOrderCopy(other.root, nullptr);
 }
 
 FSTree::~FSTree()
 {
-	FSTree::burnTree();
+	burnTree();
 	root = nullptr;
 }
 
-FSTree& FSTree::FSTree(const FSTree &other)
+DirNode *buildTree(std::string rootName)
 {
-
-}
-
-FSTree::DirNode *buildTree(std::string rootName)
-{
-
+	return nullptr;
 }
 
 /*
  * Assignment overload for FSTree.
  */
-FSTree& operator=(const FSTree &other);
+FSTree& FSTree::operator=(const FSTree &other)
+{
+	root = other.root;
+	return *this;
+}
 
 /*
  * returns the root of the tree in order to traverse it.
  * The destructor will still delete all the allocated data.
  * The user should not manually delete the data.
  */
-DirNode *getRoot() const
+DirNode *FSTree::getRoot() const
 {
 	return root;
 }
@@ -50,7 +50,7 @@ DirNode *getRoot() const
 /*
  * returns true if tree is empty
  */
-bool isEmpty()
+bool FSTree::isEmpty()
 {
 	if (root == nullptr)
 		return true;
@@ -61,12 +61,11 @@ bool isEmpty()
 /*
  * destroys the tree and deletes all the allocated data.
  */
-void burnTree();
+void FSTree::burnTree()
+{
+	return;
+}
 
-/*
- * Root of the n-ery tree
- */
-DirNode *root;
 
 /*
  * Helper Functions / Utilities (you dont need to worry
@@ -92,14 +91,14 @@ DirNode *preOrderCopy(DirNode *currNode, DirNode *parentNode)
 	newNode->setName(currNode->getName());
 	newNode->setParent(parentNode);
 
-	for (int i = 0; i < currNode->numFiles(); i++) {
+	for (size_t i = 0; i < currNode->numFiles(); i++) {
 		newNode->addFile(currNode->getFile(i));
 	}
 
 	/*
 	 * recurse and coy rest of tree
 	 */
-	for (int i = 0; i < currNode->numSubDirs(); i++) {
+	for (size_t i = 0; i < currNode->numSubDirs(); i++) {
 		newNode->addSubDirectory(preOrderCopy(currNode->getSubDir(i), newNode));
 	}
 

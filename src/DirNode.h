@@ -8,7 +8,7 @@
 #include <vector>
 #include <string>
 
-//This are the nodes that make up our N-ery file tree
+//This are the nodes that make up our N-ary file tree
 class DirNode {
 
 public:
@@ -65,12 +65,12 @@ public:
     /*
      * returns the number of sub directories
      */
-    int numSubDirs();
+    size_t numSubDirs();
 
     /*
      * returns the number of files in the current node
      */
-    int numFiles();
+    size_t numFiles();
 
     /*
      * set the name of the current node
@@ -113,7 +113,7 @@ private:
     std::vector<DirNode *> directories;
 
     /*
-     * list of all the fileNames in the current directory
+     * list of all the (not unique) fileNames in the current directory
      */
     std::vector<std::string> fileNames;
 

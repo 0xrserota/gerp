@@ -1,7 +1,7 @@
 #ifndef TREE_H
 #define TREE_H
 
-#include "DirNode.h"
+#include <DirNode.h>
 
 // Class declaration of n-nery tree which is the representation of a
 // file system.
@@ -55,14 +55,13 @@ public:
 
 private:
     /*
-     * Root of the n-ery tree
+     * Root of the n-ary tree
      */
     DirNode *root;
 
     /*
-     * Helper Functions / Utilities (you dont need to worry
-     * about these)
-     */
+     * Helper Functions / Utilities 
+	 */
     bool is_file(const char *path);
 
     bool is_dir(const char *path);
@@ -83,14 +82,14 @@ private:
         newNode->setName(currNode->getName());
         newNode->setParent(parentNode);
 
-        for (int i = 0; i < currNode->numFiles(); i++) {
+        for (size_t i = 0; i < currNode->numFiles(); i++) {
             newNode->addFile(currNode->getFile(i));
         }
 
         /*
          * recurse and coy rest of tree
          */
-        for (int i = 0; i < currNode->numSubDirs(); i++) {
+        for (size_t i = 0; i < currNode->numSubDirs(); i++) {
             newNode->addSubDirectory(preOrderCopy(currNode->getSubDir(i), newNode));
         }
 

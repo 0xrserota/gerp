@@ -11,7 +11,7 @@
  */
 
 
-#include "stringProcessing.h"
+#include <StringProcessing.h>
 
 /* Removes non-alphanumeric characters from a string argument
 	and returns the stripped string. Checks the beginning of the string

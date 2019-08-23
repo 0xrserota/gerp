@@ -13,40 +13,47 @@ CXX      = clang++
 CXXFLAGS = -g3 -Wall -Wextra -std=c++11 -O2
 LDFLAGS  = -g3
 
-HDRS = stringProcessing.h DirNode.h FSTree.h MainHashTable.h ChainLinkedList.h \
-		WordVector.h 
+HDR_DIR = src
+HDRS = $(wildcard $(HDR_DIR)/*.h)
+SRC_DIR = src/impl
+OBJ_DIR = obj
+SRCS = $(wildcard $(SRC_DIR)/*.cc)
+OBJS =  $(patsubst $(SRC_DIR)/%.cc, $(OBJ_DIR)/%.o, $(SRCS))
+BIN_DIR = bin
 
-SRCS = main.cpp stringProcessing.cpp MainHashTable.cpp ChainLinkedList.cpp \
-		WordVector.cpp
+IFLAGS  = -I$(HDR_DIR)
 
-OBJS = DirNode.o FSTree.o stringProcessing.o MainHashTable.o ChainLinkedList.o \
-		WordVector.o main.o
+$(OBJ_DIR)/main.o:   	$(SRC_DIR)/main.cc $(HDR_DIR)/MainHashTable.h $(SRC_DIR)/MainHashTable.cc \
+			$(SRC_DIR)/ChainLinkedList.cc $(SRC_DIR)/WordVector.cc $(HDR_DIR)/FSTree.h \
+			$(HDR_DIR)/StringProcessing.h $(SRC_DIR)/StringProcessing.cc $(SRC_DIR)/DirNode.cc \
+			$(HDR_DIR)/DirNode.h
+		${CXX} ${CXXFLAGS} -c $(IFLAGS) $(SRC_DIR)/main.cc -o $(OBJ_DIR)/main.o
+
+$(OBJ_DIR)/DirNode.o: $(HDR_DIR)/DirNode.h $(SRC_DIR)/DirNode.cc
+		${CXX} ${CXXFLAGS} -c $(IFLAGS) $(SRC_DIR)/DirNode.cc -o $(OBJ_DIR)/DirNode.o
+
+$(OBJ_DIR)/FSTree.o: $(HDR_DIR)/FSTree.h $(SRC_DIR)/FSTree.cc
+		${CXX} ${CXXFLAGS} -c $(IFLAGS) $(SRC_DIR)/FSTree.cc -o $(OBJ_DIR)/FSTree.o
+
+$(OBJ_DIR)/StringProcessing.o: 	$(HDR_DIR)/stringProcessing.h $(SRC_DIR)/stringProcessing.cc
+		${CXX} ${CXXFLAGS} -c $(IFLAGS) $(SRC_DIR)/StringProcessing.cc -o $(OBJ_DIR)/StringProcessing.o
+
+$(OBJ_DIR)/MainHashTable.o:	$(HDR_DIR)/MainHashTable.h $(HDR_DIR)/ChainLinkedList.h $(SRC_DIR)/ChainLinkedList.cc 
+		${CXX} ${CXXFLAGS} -c $(IFLAGS) $(SRC_DIR)/MainHashTable.cc -o $(OBJ_DIR)/MainHashTable.o
+
+$(OBJ_DIR)/ChainLinkedList.o:	$(HDR_DIR)/ChainLinkedList.h $(HDR_DIR)/WordVector.h $(SRC_DIR)/WordVector.cc
+		${CXX} ${CXXFLAGS} -c $(IFLAGS) $(SRC_DIR)/ChainLinkedList.cc -o $(OBJ_DIR)/ChainLinkedList.o
+
+$(OBJ_DIR)/WordVector.o:	$(HDR_DIR)/WordVector.h $(SRC_DIR)/WordVector.cc
+		${CXX} ${CXXFLAGS} -c $(IFLAGS) $(SRC_DIR)/WordVector.cc -o $(OBJ_DIR)/WordVector.o
 
 gerp:  ${OBJS} ${HDRS} ${SRCS}
-	${CXX} ${CXXFLAGS} ${LDFLAGS} -o gerp ${OBJS} 
-
-
-main.o:   	MainHashTable.h MainHashTable.cpp ChainLinkedList.cpp WordVector.cpp \
-			FSTree.h stringProcessing.h stringProcessing.cpp  
-
-stringProcessing.o: 	stringProcessing.h stringProcessing.cpp
-MainHashTable.o:	MainHashTable.h ChainLinkedList.h ChainLinkedList.cpp 
-ChainLinkedList.o:	ChainLinkedList.h WordVector.h WordVector.cpp
-WordVector.o:	WordVector.h WordVector.cpp
-
+	${CXX} ${CXXFLAGS} ${LDFLAGS} $(IFLAGS) -o $(BIN_DIR)/gerp ${OBJS}
 
 valgrind:  gerp
 	valgrind ./gerp
 
 clean:
 	rm -rf gerp ${OBJS} *~ *.dSYM
-
-
-provide:
-	provide comp15 proj2part3 README Makefile main.cpp ChainLinkedList.h \
-		ChainLinkedList.cpp MainHashTable.h MainHashTable.cpp WordVector.cpp \
-		WordVector.h stringProcessing.h stringProcessing.cpp testMainHashTable.cpp \
-		testChainLinkedList.cpp testWordVector.cpp DirNode.o DirNode.h FSTree.h FSTree.o
-
 
 # End Makefile

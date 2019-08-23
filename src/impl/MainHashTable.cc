@@ -16,8 +16,8 @@
 #include <string>
 #include <vector>
 
-#include "MainHashTable.h"
-#include "ChainLinkedList.h"
+#include <MainHashTable.h>
+#include <ChainLinkedList.h>
 
 using namespace std;
 

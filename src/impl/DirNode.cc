@@ -2,7 +2,7 @@
 // Created by Vivek on 10/30/16.
 //
 
-#include "DirNode.h"
+#include <DirNode.h>
 
 
 /*
@@ -19,7 +19,7 @@ DirNode::DirNode()
 DirNode::DirNode(std::string newName)
 {
 	parent = nullptr;
-	DirNode::setName(newName);
+	setName(newName);
 }
 
 /*
@@ -27,7 +27,10 @@ DirNode::DirNode(std::string newName)
 */
 DirNode::DirNode(const DirNode &other)
 {
-	;
+	directories = std::vector<DirNode *>(other.directories);
+	fileNames = std::vector<std::string>(other.fileNames);
+	name = other.name;
+	*parent = *(other.parent);
 }
 
 /*
@@ -63,13 +66,13 @@ void DirNode::addSubDirectory(DirNode *newDir)
 */
 bool DirNode::hasSubDir()
 {
-	if 
+	return !directories.empty();
 }
 
 /*
 * returns true if there are files in the current node
 */
-bool hasFiles()
+bool DirNode::hasFiles()
 {
 	return !fileNames.empty();
 }
@@ -80,7 +83,7 @@ bool hasFiles()
 */
 bool DirNode::isEmpty()
 {
-	return directories.empty() 
+	return fileNames.empty() || directories.empty(); 
 }
 
 /*
@@ -121,7 +124,7 @@ std::string DirNode::getName()
 */
 DirNode* DirNode::getSubDir(int n)
 {
-
+	return directories.at((size_t) n);
 }
 
 /*
@@ -129,7 +132,7 @@ DirNode* DirNode::getSubDir(int n)
 */
 std::string DirNode::getFile(int n)
 {
-
+	return fileNames.at((size_t) n);
 }
 
 /*

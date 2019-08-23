@@ -10,8 +10,10 @@
  *
  */
 
-#include "ChainLinkedList.h"
+
 #include <iostream>
+
+#include <ChainLinkedList.h>
 
 using namespace std;
 
@@ -19,7 +21,7 @@ using namespace std;
 ChainLinkedList() */
 ChainLinkedList::ChainLinkedList()
 {
-	front = NULL;
+	front = nullptr;
 	chainLength = 0;
 
 	pathIndices = new vector<size_t>;
@@ -53,7 +55,7 @@ returns a bool
 bool isEmpty() */
 bool ChainLinkedList::isEmpty()
 {
-	if (front == NULL)
+	if (front == nullptr)
 		return true;
 
 	else return false;
@@ -99,7 +101,7 @@ bool ChainLinkedList::isInList(string key)
 		return false;
 
 	ChainNode *cn = front;
-	while (cn != NULL)
+	while (cn != nullptr)
 	{
 		if (cn->key == key)
 			return true;

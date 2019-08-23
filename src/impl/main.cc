@@ -14,9 +14,9 @@
 #include <sstream>
 #include <fstream>
 
-#include "MainHashTable.h"
-#include "FSTree.h"
-#include "stringProcessing.h"
+#include <MainHashTable.h>
+#include <FSTree.h>
+#include <StringProcessing.h>
 
 using namespace std;
 
@@ -24,68 +24,29 @@ using namespace std;
  * Returns nothing.
  *
  * Parameters:
- *
- *		ht: a pointer to the instance of MainHashTable created in main
- *
- * Starts a command loop - exits when CTRL-D or @q/@quit is pressed
- * Calls print and stringProcessing functions
- *
- * void run(MainHashTable*) */
-void run(MainHashTable* ht)
+ *     lineStream:  reference to a stringstream of a line
+ *		  lineNum:  line number of the line being indexed
+ *		pathIndex:  the index in the pathVec where the filepath
+ *					for this line is stored
+ *			   ht:  a pointer to the instance of MainHashTable created in main
+ */
+void indexLine(stringstream& lineStream, int lineNum, size_t pathIndex, 
+				MainHashTable *ht)
 {
-	string cmd;
-	string query;
+	string word;
+	string line = lineStream.str();
+	size_t lineIndex = ht->addToLineVec(line);
 
-	while (!cin.eof()) 
+	while (!lineStream.eof())
 	{
-		ht->resetBeenPrinted();
-		cout << "Query? ";
-		cin >> cmd;
-		if (cin.eof()) {
-			break;
+		lineStream >> word;
+		word = stripNonAlphaNum(word);
+
+		if (!(word == ""))
+		{
+			ht->addToTable(word, lineNum, lineIndex, pathIndex);
 		}
-
-		if (cmd == "@q" or cmd == "@quit") {
-			break;
-		} else if (cmd == "@i" or cmd == "@insensitive") { 
-			cin >> query;
-			if (cin.eof()) break;
-			query = stripNonAlphaNum(query);			
-			ht->printWord(query);
-		} else {
-			query = cmd;
-			query = stripNonAlphaNum(query);
-			ht->printCaseWord(query);
-		}		
 	}
-	quit();
-}
-
-/* 
- * Returns nothing.
- *
- * Takes no parameters 
- *
- * Prints a message to stdout
- */
-void quit() 
-{
-	cout << "\nGoodbye! Thank you and have a nice day." << endl;
-	exit(0);
-}
-
-/* Returns nothing.
- *
- * Parameters:	
- *
- * 		root: pointer to the DirNode entered as a command-line argument
- *		 top: a string name of the top directory 
- */
-void indexFSTree(DirNode *root, string top, stringstream& pathStream, 
-				  MainHashTable *ht)
-{
-	traverseTree(root, top, pathStream);
-	indexFiles(pathStream, ht);
 }
 
 /* 
@@ -126,35 +87,6 @@ void indexFiles(stringstream& pathStream, MainHashTable *ht)
  * Returns nothing.
  *
  * Parameters:
- *     lineStream:  reference to a stringstream of a line
- *		  lineNum:  line number of the line being indexed
- *		pathIndex:  the index in the pathVec where the filepath
- *					for this line is stored
- *			   ht:  a pointer to the instance of MainHashTable created in main
- */
-void indexLine(stringstream& lineStream, int lineNum, size_t pathIndex, 
-				MainHashTable *ht)
-{
-	string word;
-	string line = lineStream.str();
-	size_t lineIndex = ht->addToLineVec(line);
-
-	while (!lineStream.eof())
-	{
-		lineStream >> word;
-		word = stripNonAlphaNum(word);
-
-		if (!(word == ""))
-		{
-			ht->addToTable(word, lineNum, lineIndex, pathIndex);
-		}
-	}
-}
-
-/* 
- * Returns nothing.
- *
- * Parameters:
  *             dn:  pointer a DirNode being indexed
  *		  dirPath:  path of the current directory
  *	   pathStream:  reference to a stringstream storing all paths traversed
@@ -185,6 +117,20 @@ void traverseTree(DirNode *dn, string dirPath,
 	}
 }
 
+/* Returns nothing.
+ *
+ * Parameters:	
+ *
+ * 		root: pointer to the DirNode entered as a command-line argument
+ *		 top: a string name of the top directory 
+ */
+void indexFSTree(DirNode *root, string top, stringstream& pathStream, 
+				  MainHashTable *ht)
+{
+	traverseTree(root, top, pathStream);
+	indexFiles(pathStream, ht);
+}
+
 /*
  *
  * 
@@ -194,6 +140,60 @@ int usage()
 	cerr << "Usage: gerp directory\n" 
 		 << "where: directory is a valid directory" << endl;
 	return EXIT_FAILURE;
+}
+
+/* 
+ * Returns nothing.
+ *
+ * Takes no parameters 
+ *
+ * Prints a message to stdout
+ */
+void quit() 
+{
+	cout << "\nGoodbye! Thank you and have a nice day." << endl;
+	exit(0);
+}
+
+/* 
+ * Returns nothing.
+ *
+ * Parameters:
+ *
+ *		ht: a pointer to the instance of MainHashTable created in main
+ *
+ * Starts a command loop - exits when CTRL-D or @q/@quit is pressed
+ * Calls print and stringProcessing functions
+ *
+ * void run(MainHashTable*) */
+void run(MainHashTable* ht)
+{
+	string cmd;
+	string query;
+
+	while (!cin.eof()) 
+	{
+		ht->resetBeenPrinted();
+		cout << "Query? ";
+		cin >> cmd;
+		if (cin.eof()) {
+			break;
+		}
+
+		if (cmd == "@q" or cmd == "@quit") {
+			break;
+		} else if (cmd == "@i" or cmd == "@insensitive") { 
+			cin >> query;
+			if (cin.eof()) break;
+			query = stripNonAlphaNum(query);			
+			ht->printWord(query);
+		} else {
+			query = cmd;
+			query = stripNonAlphaNum(query);
+			ht->printCaseWord(query);
+		}		
+	}
+	quit();
 }
 
 /* 

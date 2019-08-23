@@ -10,8 +10,11 @@
  *
  */
 
-#include "WordVector.h"
+
 #include <string>
+
+#include <WordVector.h>
+
 
 using namespace std;
 
